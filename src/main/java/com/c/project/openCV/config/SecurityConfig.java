@@ -12,11 +12,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Disable CSRF and allow access to registration and login endpoints
-        http.csrf().disable()
-            .authorizeRequests()
-            .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Allow unauthenticated access
-            .anyRequest().authenticated(); // Secure other endpoints
+        // Configure security
+        http
+            .csrf(csrf -> csrf.disable()) // Updated way to disable CSRF
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Allow unauthenticated access
+                .anyRequest().authenticated() // Secure other endpoints
+            );
+
         return http.build();
     }
 }
