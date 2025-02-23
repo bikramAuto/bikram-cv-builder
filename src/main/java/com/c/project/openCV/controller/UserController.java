@@ -29,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDTO> loginUser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<ResponseDTO> loginUser(@RequestBody User user) {
         try {
-            ResponseDTO response = userService.loginUser(username, password);
+            ResponseDTO response = userService.loginUser(user.getUsername(), user.getPassword());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (UserNotFoundException | IllegalArgumentException e) {
             return new ResponseEntity<>(new ResponseDTO(e.getMessage(), false), HttpStatus.BAD_REQUEST);
